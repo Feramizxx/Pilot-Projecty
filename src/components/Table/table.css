@@ -1,0 +1,13 @@
+.tabulator .tabulator-tableholder {
+  overflow-x: hidden !important;
+}
+
+.table-container {
+  display: flex;
+  align-items: center;
+  /* max-width: 1250px; */
+}
+
+.container{
+  display: block;
+}
