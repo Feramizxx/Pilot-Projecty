@@ -7,14 +7,25 @@ import { GlobalContext } from "../../context/GlobalState";
 import ModalComponent from "../Modal";
 import ModalButton from "../Button";
 import MapComponent from "../Map";
+import { reactFormatter } from "./Utils";
 
 const Table = ({ paginatedData, itemsPerPage, currentPage }) => {
-  const { addEmployee, toggleEditMode, toggleAddMode, removeEmployee } =
-    useContext(GlobalContext);
+  const { removeTableData } = useContext(GlobalContext);
   const sortedData = paginatedData.sort((a, b) => b.id - a.id);
   const [clickedCellData, setClickedCellData] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [clickedCellWKT, setClickedCellWKT] = useState("");
+
+  function EditButton(props) {
+    // const rowData = props.cell._cell.row.data;
+    const cellValue = "Edit";
+    return <p>{cellValue}</p>;
+  }
+  function ShowInMapButton(props) {
+    // const rowData = props.cell._cell.row.data;
+    const cellValue = "Map";
+    return <p>{cellValue}</p>;
+  }
 
   const columns = [
     {
@@ -31,15 +42,14 @@ const Table = ({ paginatedData, itemsPerPage, currentPage }) => {
     {
       title: "Edit",
       field: "edit",
-      formatter: "",
+      formatter: reactFormatter(<EditButton />),
       align: "center",
       headerSort: false,
-      width: 40, // Adjust the width as needed
+      width: 40,
       cellClick: function (e, cell) {
-        // Handle cell click action here
         const rowData = cell.getRow().getData();
-        console.log("Cell clicked for row:", rowData);
-        setClickedCellData(rowData); // Store clicked cell data in state
+        // console.log("Cell clicked for row:", rowData);
+        setClickedCellData(rowData);
         setIsOpen(true);
       },
     },
@@ -52,18 +62,17 @@ const Table = ({ paginatedData, itemsPerPage, currentPage }) => {
       headerSort: false,
       width: 40,
       cellClick: function (e, cell) {
-        console.log("Remove clicked for row:", cell.getRow().getData());
-        const mydata = cell.getRow().getData();
-        console.log(mydata.id, "iddd");
+        const mydata = cell.getRow().getData().id;
+        // console.log(mydata.id, "iddd");
 
-        removeEmployee(cell.getRow().getData().id);
+        removeTableData(mydata);
       },
     },
 
     {
       title: "Map",
       field: "showInMap",
-      formatter: "",
+      formatter: reactFormatter(<ShowInMapButton />),
       align: "center",
       headerSort: false,
       width: 40,

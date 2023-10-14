@@ -1,15 +1,15 @@
 export default function appReducer(state, action) {
   switch (action.type) {
-    case "ADD_EMPLOYEE":
+    case "ADD_DATA":
       return {
         ...state,
-        employees: [...state.employees, action.payload],
+        tableData: [...state.tableData, action.payload],
       };
 
     case "UPDATE_INITIAL_STATE":
       return {
         ...state,
-        employees: action.payload,
+        tableData: action.payload,
       };
 
     case "TOGGLE_EDIT_MODE":
@@ -24,27 +24,25 @@ export default function appReducer(state, action) {
         open: { ...state.open, addMode: !state.open.addMode },
       };
 
-    case "EDIT_EMPLOYEE":
+    case "EDIT_DATA":
       const updatedEmployee = action.payload;
 
-      const updatedEmployees = state.employees.map((employee) => {
-        if (employee.id === updatedEmployee.id) {
+      const updatedEmployees = state.tableData.map((item) => {
+        if (item.id === updatedEmployee.id) {
           return updatedEmployee;
         }
-        return employee;
+        return item;
       });
 
       return {
         ...state,
-        employees: updatedEmployees,
+        tableData: updatedEmployees,
       };
 
-    case "REMOVE_EMPLOYEE":
+    case "REMOVE_DATA":
       return {
         ...state,
-        employees: state.employees.filter(
-          (employee) => employee.id !== action.payload,
-        ),
+        tableData: state.tableData.filter((item) => item.id !== action.payload),
       };
 
     default:

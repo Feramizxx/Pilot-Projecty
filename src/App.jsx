@@ -8,7 +8,7 @@ import Charts from "./components/Charts";
 import ChartUploadButton from "./components/Charts/ChartUploadButton";
 
 function App() {
-  const { employees } = useContext(GlobalContext);
+  const { tableData } = useContext(GlobalContext);
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [openPieChart, setIsOpenPieChart] = useState(false);
@@ -16,8 +16,8 @@ function App() {
   const itemsPerPage = 100;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedData = employees?.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(employees?.length / itemsPerPage) || "unknown";
+  const paginatedData = tableData?.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(tableData?.length / itemsPerPage) || "unknown";
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
@@ -45,7 +45,7 @@ function App() {
           setCurrentPage={setCurrentPage}
         />
 
-        {data?.length !== 0 && <AddDataButton newData={employees} />}
+        {data?.length !== 0 && <AddDataButton newData={tableData} />}
       </div>
 
       <Table
@@ -55,7 +55,7 @@ function App() {
       />
 
       {/* <Modal /> */}
-      {employees.length > 0 && (
+      {tableData.length > 0 && (
         <div className="btn-container">
           <PagintaionButton
             currentPage={currentPage}

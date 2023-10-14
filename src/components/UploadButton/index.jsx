@@ -5,7 +5,7 @@ import { Button, Upload } from "antd";
 import { GlobalContext } from "../../context/GlobalState";
 import "./uploadbutton.css";
 
-const UploadButton = ({ data, setData, setCurrentPage }) => {
+const UploadButton = ({ setData, setCurrentPage }) => {
   const [loading, setLoading] = useState(false);
   const { updateInitialState } = useContext(GlobalContext);
 
@@ -15,6 +15,10 @@ const UploadButton = ({ data, setData, setCurrentPage }) => {
     reader.readAsBinaryString(file);
     reader.onload = (e) => {
       const data = e.target.result;
+      if (!file.name.endsWith(".xlsx")) {
+        setLoading(false);
+        return;
+      }
       const workbook = XLSX.read(data, { type: "binary" });
       const sheetName = workbook.SheetNames[0];
       const sheet = workbook.Sheets[sheetName];
@@ -23,7 +27,7 @@ const UploadButton = ({ data, setData, setCurrentPage }) => {
       setData(parsedData);
       updateInitialState(parsedData);
       setCurrentPage(1);
-      setLoading(false); // Set loading to false after file processing
+      setLoading(false);
     };
   };
 
@@ -31,10 +35,10 @@ const UploadButton = ({ data, setData, setCurrentPage }) => {
     <Upload
       accept=".xlsx, .xls"
       beforeUpload={(file) => {
-        handleFileUpload(file); 
-        return false; 
+        handleFileUpload(file);
+        return false;
       }}
-      showUploadList={false} 
+      showUploadList={false}
     >
       <Button icon={<UploadOutlined />} loading={loading}>
         {loading ? "Uploading..." : "Load Excel File"}

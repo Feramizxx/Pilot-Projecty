@@ -31,15 +31,14 @@ const MapComponent = ({ wktData }) => {
       featureProjection: "EPSG:3857",
     });
 
-
     const lineStyle = new Style({
       stroke: new Stroke({
-        color: "red", 
-        width: 2, 
+        color: "red",
+        width: 2,
       }),
     });
 
-    lineFeature.setStyle(lineStyle); 
+    lineFeature.setStyle(lineStyle);
 
     const lineCoordinates = lineFeature.getGeometry().getCoordinates();
     const lineMidpoint = [
@@ -68,7 +67,9 @@ const MapComponent = ({ wktData }) => {
     createMap(wktData);
   }, [wktData]);
 
-  return <div ref={mapRef} className={`${wktData ? "map-container": ""} `} ></div>;
+  return (
+    <div ref={mapRef} className={`${wktData ? "map-container" : ""} `}></div>
+  );
 };
 
 export default MapComponent;

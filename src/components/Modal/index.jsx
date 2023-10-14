@@ -4,8 +4,7 @@ import { GlobalContext } from "../../context/GlobalState";
 
 const ModalComponent = ({ isOpen, setIsOpen, newData, type }) => {
   const formRef = useRef();
-  const { employees, addEmployee, open, editEmployee, toggleAddMode } =
-    useContext(GlobalContext);
+  const { tableData, addTableData, editTableData } = useContext(GlobalContext);
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
@@ -17,14 +16,14 @@ const ModalComponent = ({ isOpen, setIsOpen, newData, type }) => {
 
     if (newValues.len >= 0) {
       if (type === "add") {
-        const maxId = employees.reduce(
+        const maxId = tableData.reduce(
           (max, employee) => (employee.id > max ? employee.id : max),
           0,
         );
         const newValue = { ...newValues, id: maxId + 1 };
-        addEmployee(newValue);
+        addTableData(newValue);
       } else if (type === "edit") {
-        editEmployee({ ...newData, ...newValues });
+        editTableData({ ...newData, ...newValues });
       }
       formRef.current.resetFields();
       handleOk();

@@ -6,27 +6,27 @@ export const GlobalContext = createContext(initialState);
 
 export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(appReducer, {
-    employees: initialState,
+    tableData: initialState,
     open: { editMode: false, addMode: false },
   });
 
-  function addEmployee(employee) {
+  function addTableData(data) {
     dispatch({
-      type: "ADD_EMPLOYEE",
-      payload: employee,
+      type: "ADD_DATA",
+      payload: data,
     });
   }
 
-  function editEmployee(employee) {
+  function editTableData(data) {
     dispatch({
-      type: "EDIT_EMPLOYEE",
-      payload: employee,
+      type: "EDIT_DATA",
+      payload: data,
     });
   }
 
-  function removeEmployee(id) {
+  function removeTableData(id) {
     dispatch({
-      type: "REMOVE_EMPLOYEE",
+      type: "REMOVE_DATA",
       payload: id,
     });
   }
@@ -53,11 +53,11 @@ export const GlobalProvider = ({ children }) => {
   return (
     <GlobalContext.Provider
       value={{
-        employees: state.employees,
+        tableData: state.tableData,
         open: state.open,
-        addEmployee,
-        editEmployee,
-        removeEmployee,
+        addTableData,
+        editTableData,
+        removeTableData,
         updateInitialState,
         toggleEditMode,
         toggleAddMode,

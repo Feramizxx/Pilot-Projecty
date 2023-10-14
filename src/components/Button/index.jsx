@@ -1,9 +1,7 @@
-import React, { useState, useContext } from "react";
+import React from "react";
 import { Button } from "antd";
-import ModalComponent from "../Modal";
-import { GlobalContext } from "../../context/GlobalState";
 
-const ModalButton = ({ isOpen, setIsOpen, type, rowData }) => {
+const ModalButton = ({ isOpen, setIsOpen, type }) => {
   const showModal = () => {
     setIsOpen(!isOpen);
   };

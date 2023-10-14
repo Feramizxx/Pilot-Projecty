@@ -9,10 +9,8 @@ import {
   Legend,
   ArcElement,
 } from "chart.js";
-import { Doughnut, Pie, Bar } from "react-chartjs-2";
+import { Doughnut, Bar } from "react-chartjs-2";
 import { GlobalContext } from "../../context/GlobalState";
-
-// import { Chart, ArcElement,CategoryScale } from 'chart.js';
 
 ChartJS.register(
   CategoryScale,
@@ -24,9 +22,8 @@ ChartJS.register(
   Legend,
 );
 
-
 const Charts = ({ openPieChart, setIsOpenPieChart, type }) => {
-  const { employees } = useContext(GlobalContext);
+  const { tableData } = useContext(GlobalContext);
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
@@ -49,7 +46,7 @@ const Charts = ({ openPieChart, setIsOpenPieChart, type }) => {
   });
 
   useEffect(() => {
-    const groupedEmployees = employees.reduce((acc, employee) => {
+    const groupedEmployees = tableData.reduce((acc, employee) => {
       const status = employee.status;
 
       if (!acc[status]) {
@@ -61,7 +58,7 @@ const Charts = ({ openPieChart, setIsOpenPieChart, type }) => {
       return acc;
     }, {});
 
-    const totalEmployees = employees.length;
+    const totalEmployees = tableData.length;
 
     const data = Object.keys(groupedEmployees).map((status) => {
       const count = groupedEmployees[status].length;
@@ -107,45 +104,44 @@ const Charts = ({ openPieChart, setIsOpenPieChart, type }) => {
     };
 
     setData(updatedData);
-  }, [employees]);
+  }, [tableData]);
 
+  // const options = {
+  //   legend: {
+  //     display: true,
+  //     position: "bottom", // Position can be 'top', 'bottom', 'left', 'right', etc.
+  //     labels: {
+  //       fontColor: "black",
+  //       fontSize: 20,
+  //     },
+  //   },
+  // };
 
-  const options = {
-    legend: {
-      display: true,
-      position: "bottom", // Position can be 'top', 'bottom', 'left', 'right', etc.
-      labels: {
-        fontColor: "black",
-        fontSize: 20,
-      },
-    },
-  };
+  // const baroptions = {
+  //   title: {
+  //     display: true,
+  //     text: "Employee Status Length Sum",
+  //   },
+  //   scales: {
+  //     yAxes: [
+  //       {
+  //         ticks: {
+  //           beginAtZero: true,
+  //         },
+  //       },
+  //     ],
+  //   },
+  // };
 
-  const baroptions = {
-    title: {
-      display: true,
-      text: "Employee Status Length Sum",
-    },
-    scales: {
-      yAxes: [
-        {
-          ticks: {
-            beginAtZero: true,
-          },
-        },
-      ],
-    },
-  };
-
-  console.log(employees, "emplooo");
+  console.log(tableData, "emplooo");
 
   return (
     <div className="App" style={{ width: "30%", height: "30%" }}>
       <h2>Our {type === "pie" ? "Pie  chart" : "Bar graph"}: </h2>
-      {type === "pie" && employees.length !== 0 && (
+      {type === "pie" && tableData.length !== 0 && (
         <Doughnut data={chartData} />
       )}
-      {type === "bar" && employees.length !== 0 ? <Bar data={Data} /> : ""}
+      {type === "bar" && tableData.length !== 0 ? <Bar data={Data} /> : ""}
     </div>
   );
 };
