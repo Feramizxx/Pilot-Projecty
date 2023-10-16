@@ -21,7 +21,7 @@ const Table = () => {
 
   useEffect(() => {
     updateFilteredDataState(filteredData);
-  }, [filteredData, updateFilteredDataState]);
+  }, [filteredData]);
 
   function EditButton(props) {
     const cellValue = "Edit";

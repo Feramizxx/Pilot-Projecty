@@ -14,7 +14,7 @@ const ModalComponent = ({ isOpen, setIsOpen, newData, type }) => {
         status: newData?.status?.toString(),
       });
     }
-  }, [type, newData]);
+  }, [type, newData,form]);
 
   const onFinish = (values) => {
     const newValues = {

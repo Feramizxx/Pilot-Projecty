@@ -3,15 +3,14 @@ import "./index.css";
 import App from "./App";
 import { GlobalProvider } from "./context/GlobalState";
 import { createRoot } from "react-dom/client";
-import {StrictMode} from 'react';
-const rootElement = document.getElementById('root');
+import { StrictMode } from "react";
+const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
 
 root.render(
   <StrictMode>
     <GlobalProvider>
-    <App />
-
+      <App />
     </GlobalProvider>
   </StrictMode>,
 );
