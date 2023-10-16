@@ -12,6 +12,14 @@ export default function appReducer(state, action) {
         tableData: action.payload,
       };
 
+      case "UPDATE_FILTERDEDDATA_STATE":
+        return {
+          ...state,
+          filteredTableData: action.payload,
+        };
+  
+
+
     case "TOGGLE_EDIT_MODE":
       return {
         ...state,
@@ -22,6 +30,7 @@ export default function appReducer(state, action) {
       return {
         ...state,
         open: { ...state.open, addMode: !state.open.addMode },
+        
       };
 
     case "EDIT_DATA":

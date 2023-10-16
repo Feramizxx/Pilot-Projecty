@@ -22,8 +22,15 @@ ChartJS.register(
   Legend,
 );
 
-const Charts = ({ openPieChart, setIsOpenPieChart, type }) => {
-  const { tableData } = useContext(GlobalContext);
+const Charts = ({
+  openPieChart,
+  setIsOpenPieChart,
+  type,
+}) => {
+  const { tableData,filteredTableData } = useContext(GlobalContext);
+
+  let majorCharData= filteredTableData.length!==0 ? filteredTableData : tableData; 
+
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
@@ -46,7 +53,7 @@ const Charts = ({ openPieChart, setIsOpenPieChart, type }) => {
   });
 
   useEffect(() => {
-    const groupedEmployees = tableData.reduce((acc, employee) => {
+    const groupedEmployees = majorCharData.reduce((acc, employee) => {
       const status = employee.status;
 
       if (!acc[status]) {
@@ -58,7 +65,7 @@ const Charts = ({ openPieChart, setIsOpenPieChart, type }) => {
       return acc;
     }, {});
 
-    const totalEmployees = tableData.length;
+    const totalEmployees = majorCharData.length;
 
     const data = Object.keys(groupedEmployees).map((status) => {
       const count = groupedEmployees[status].length;
@@ -104,7 +111,7 @@ const Charts = ({ openPieChart, setIsOpenPieChart, type }) => {
     };
 
     setData(updatedData);
-  }, [tableData]);
+  }, [majorCharData]);
 
   // const options = {
   //   legend: {
@@ -133,15 +140,13 @@ const Charts = ({ openPieChart, setIsOpenPieChart, type }) => {
   //   },
   // };
 
-  console.log(tableData, "emplooo");
-
   return (
     <div className="App" style={{ width: "30%", height: "30%" }}>
       <h2>Our {type === "pie" ? "Pie  chart" : "Bar graph"}: </h2>
-      {type === "pie" && tableData.length !== 0 && (
+      {type === "pie" && majorCharData.length !== 0 && (
         <Doughnut data={chartData} />
       )}
-      {type === "bar" && tableData.length !== 0 ? <Bar data={Data} /> : ""}
+      {type === "bar" && majorCharData.length !== 0 ? <Bar data={Data} /> : ""}
     </div>
   );
 };

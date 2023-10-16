@@ -1,14 +1,14 @@
 import React, { createContext, useReducer } from "react";
 import appReducer from "./AppReducer";
 
-const initialState = [];
+const initialState = {
+  tableData: [],
+  filteredTableData: [],
+};
 export const GlobalContext = createContext(initialState);
 
 export const GlobalProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(appReducer, {
-    tableData: initialState,
-    open: { editMode: false, addMode: false },
-  });
+  const [state, dispatch] = useReducer(appReducer, initialState);
 
   function addTableData(data) {
     dispatch({
@@ -38,6 +38,12 @@ export const GlobalProvider = ({ children }) => {
     });
   }
 
+  function updateFilteredDataState(comingdata) {
+    dispatch({
+      type: "UPDATE_FILTERDEDDATA_STATE",
+      payload: comingdata,
+    });
+  }
   function toggleEditMode() {
     dispatch({
       type: "TOGGLE_EDIT_MODE",
@@ -54,11 +60,13 @@ export const GlobalProvider = ({ children }) => {
     <GlobalContext.Provider
       value={{
         tableData: state.tableData,
+        filteredTableData: state.filteredTableData,
         open: state.open,
         addTableData,
         editTableData,
         removeTableData,
         updateInitialState,
+        updateFilteredDataState,
         toggleEditMode,
         toggleAddMode,
       }}

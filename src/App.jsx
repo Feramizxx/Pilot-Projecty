@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-import PagintaionButton from "./components/PaginationButtons";
 import Table from "./components/Table";
 import UploadButton from "./components/UploadButton";
 import AddDataButton from "./components/AddDataButton";
@@ -10,25 +9,8 @@ import ChartUploadButton from "./components/Charts/ChartUploadButton";
 function App() {
   const { tableData } = useContext(GlobalContext);
   const [data, setData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const [openPieChart, setIsOpenPieChart] = useState(false);
   const [chartType, setChartType] = useState("");
-  const itemsPerPage = 100;
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const paginatedData = tableData?.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(tableData?.length / itemsPerPage) || "unknown";
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
 
   const toggleChart = (type) => {
     setChartType(type);
@@ -38,31 +20,14 @@ function App() {
   return (
     <div className="container">
       <div className="button-container">
-        <UploadButton
-          data={data}
-          setData={setData}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
+        <UploadButton data={data} setData={setData} />
 
         {data?.length !== 0 && <AddDataButton newData={tableData} />}
       </div>
 
-      <Table
-        paginatedData={paginatedData}
-        itemsPerPage={itemsPerPage}
-        currentPage={currentPage}
-      />
-
-      {/* <Modal /> */}
+      {tableData.length > 0 && <Table />}
       {tableData.length > 0 && (
         <div className="btn-container">
-          <PagintaionButton
-            currentPage={currentPage}
-            totalPages={totalPages}
-            handlePreviousPage={handlePreviousPage}
-            handleNextPage={handleNextPage}
-          />
           <div>
             <ChartUploadButton
               type="pie"

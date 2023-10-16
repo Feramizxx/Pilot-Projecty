@@ -5,12 +5,12 @@ import { Button, Upload } from "antd";
 import { GlobalContext } from "../../context/GlobalState";
 import "./uploadbutton.css";
 
-const UploadButton = ({ setData, setCurrentPage }) => {
+const UploadButton = ({ setData }) => {
   const [loading, setLoading] = useState(false);
   const { updateInitialState } = useContext(GlobalContext);
 
   const handleFileUpload = (file) => {
-    setLoading(true); // Set loading to true during file processing
+    setLoading(true);
     const reader = new FileReader();
     reader.readAsBinaryString(file);
     reader.onload = (e) => {
@@ -26,7 +26,6 @@ const UploadButton = ({ setData, setCurrentPage }) => {
 
       setData(parsedData);
       updateInitialState(parsedData);
-      setCurrentPage(1);
       setLoading(false);
     };
   };

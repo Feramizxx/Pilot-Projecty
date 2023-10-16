@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useEffect } from "react";
 import { Button, Modal, Form, Input, Select } from "antd";
 import { GlobalContext } from "../../context/GlobalState";
 
@@ -6,6 +6,15 @@ const ModalComponent = ({ isOpen, setIsOpen, newData, type }) => {
   const formRef = useRef();
   const { tableData, addTableData, editTableData } = useContext(GlobalContext);
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    if (type === "edit") {
+      form.setFieldsValue({
+        len: newData?.len?.toString(),
+        status: newData?.status?.toString(),
+      });
+    }
+  }, [type, newData]);
 
   const onFinish = (values) => {
     const newValues = {
@@ -29,25 +38,21 @@ const ModalComponent = ({ isOpen, setIsOpen, newData, type }) => {
       handleOk();
     } else {
       formRef.current.resetFields();
-
       alert("Length cannot be less than 0");
     }
   };
 
   const handleOk = (e) => {
     setIsOpen(!isOpen);
-
-    console.log(e);
   };
   const handleCancel = (e) => {
     setIsOpen(!isOpen);
-    console.log(e);
   };
 
   return (
     <Modal
       title={type === "add" ? "Add Data" : "Edit Data"}
-      open={isOpen}
+      open={isOpen} // Change "open" to "visible"
       onOk={handleOk}
       onCancel={handleCancel}
       footer={[
